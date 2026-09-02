@@ -1,6 +1,7 @@
 <!doctype html>
 <title>KIV Runway Departures</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 64 64%27%3E%3Crect width=%2764%27 height=%2764%27 fill=%27%230a0a0b%27/%3E%3Ctext x=%2732%27 y=%2743%27 font-family=%27Arial,Helvetica,sans-serif%27 font-weight=%27700%27 font-size=%2726%27 fill=%27%23ffb627%27 text-anchor=%27middle%27%3EKIV%3C/text%3E%3C/svg%3E">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Saira+Stencil+One&family=Saira+Extra+Condensed:wght@500;700;800&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
 <style>
   :root{
@@ -108,6 +109,10 @@
   .next .lbl{font-size:12px;letter-spacing:.2em;text-transform:uppercase;font-weight:600;}
   .next .big{font-family:"Saira Extra Condensed",Impact,sans-serif;font-weight:800;font-size:34px;letter-spacing:.06em;text-transform:uppercase;line-height:1;}
   .next .t{margin-left:auto;font-size:14px;letter-spacing:.08em;font-weight:500;}
+  a.cell{text-decoration:none;color:var(--chalk);}
+  a.cell:hover{color:var(--amber);text-decoration:underline;text-decoration-color:var(--amber);text-underline-offset:3px;}
+  .back{display:inline-block;color:var(--amber);text-decoration:none;font-weight:600;letter-spacing:.12em;margin-right:18px;padding:6px 0;}
+  .back:hover{text-decoration:underline;}
   /* footer */
   .foot{position:relative;margin-top:auto;display:grid;grid-template-columns:1fr auto;align-items:end;gap:24px;}
   .foot .note{font-size:13px;letter-spacing:.06em;line-height:1.7;color:var(--chalk-dim);max-width:600px;}
@@ -154,6 +159,9 @@
     .next .t{margin-left:0;font-size:12px;}
     .foot{grid-template-columns:1fr;gap:18px;margin-top:28px;}
     .foot .note{font-size:11.5px;line-height:1.65;max-width:none;}
+    .row .race a.cell{padding:8px 10px 7px;}
+    .row .race a.cell::after{content:" ↗";color:var(--amber);}
+    .meta .back{margin-right:0;padding:8px 0;}
     .foot .rwy{font-size:96px;text-align:left;}
     .foot .rwy small{font-size:11px;}
   }
@@ -202,7 +210,7 @@
   <header class="head">
     <div class="sign">KIV<small>RUNWAY<br>CLUB</small></div>
     <div class="club">Кишинёв <span>·</span> Chișinău</div>
-    <div class="meta">Табло обновлено<br><b>02 SEP 2026 · 09:00</b></div>
+    <div class="meta"><a class="back" href="index.html">← Index</a>Табло обновлено<br><b>02 SEP 2026 · 09:00</b></div>
   </header>
 
   <section class="title">
@@ -216,7 +224,7 @@
     <div class="row">
       <div class="date"><span class="cell">13 SEP</span></div>
       <div class="dest"><span class="cell"><span class="code">KIV</span>Chișinău · ПМАН</span></div>
-      <div class="race"><span class="cell">Chisinau Marathon</span></div>
+      <div class="race"><a class="cell" href="https://sporter.md/en/events/run/16538/chisinau-marathon-2026" target="_blank" rel="noopener">Chisinau Marathon</a></div>
       <div class="km"><span class="cell">5 · 10 · 21 · 42</span></div>
       <div class="status"><span class="st open">Boarding</span></div>
     </div>
@@ -224,7 +232,7 @@
     <div class="row">
       <div class="date"><span class="cell">19 SEP</span></div>
       <div class="dest"><span class="cell"><span class="code">SGR</span>Rădoaia</span></div>
-      <div class="race"><span class="cell">NordRun · trail</span></div>
+      <div class="race"><a class="cell" href="https://nordrun.md/curse/" target="_blank" rel="noopener">NordRun · trail</a></div>
       <div class="km"><span class="cell">5 · 10 · 21</span></div>
       <div class="status"><span class="st last">Last call 10.09</span></div>
     </div>
@@ -232,7 +240,7 @@
         <div class="row">
       <div class="date"><span class="cell">26 SEP</span></div>
       <div class="dest"><span class="cell"><span class="code">CRV</span>Cricova</span></div>
-      <div class="race"><span class="cell">Feteasca Run</span></div>
+      <div class="race"><a class="cell" href="https://iticket.md/event/feteasca-run-2026" target="_blank" rel="noopener">Feteasca Run</a></div>
       <div class="km"><span class="cell">10</span></div>
       <div class="status"><span class="st last">150 seats</span></div>
     </div>
@@ -240,7 +248,7 @@
     <div class="row">
       <div class="date"><span class="cell">03 OCT</span></div>
       <div class="dest"><span class="cell"><span class="code">IAS</span>Mârzești · Iași</span></div>
-      <div class="race"><span class="cell">Mârzești Trail Run</span></div>
+      <div class="race"><a class="cell" href="https://marzestirun.ro/inscrie-te/" target="_blank" rel="noopener">Mârzești Trail Run</a></div>
       <div class="km"><span class="cell">2 · 4 · 10.5 · 21</span></div>
       <div class="status"><span class="st closed">Reg. TBA</span></div>
     </div>
@@ -248,7 +256,7 @@
         <div class="row">
       <div class="date"><span class="cell">10 OCT</span></div>
       <div class="dest"><span class="cell"><span class="code">PUH</span>Puhoi · Asconi</span></div>
-      <div class="race"><span class="cell">TulbuRun la Asconi</span></div>
+      <div class="race"><a class="cell" href="https://www.runmoldova.com/tulburun-la-asconi-2026/" target="_blank" rel="noopener">TulbuRun la Asconi</a></div>
       <div class="km"><span class="cell">6.8 · 11.2</span></div>
       <div class="status"><span class="st open">On time</span></div>
     </div>
@@ -256,7 +264,7 @@
         <div class="row">
       <div class="date"><span class="cell">31 OCT</span></div>
       <div class="dest"><span class="cell"><span class="code">CRV</span>Cricova</span></div>
-      <div class="race"><span class="cell">HalloWeRun · VI</span></div>
+      <div class="race"><a class="cell" href="https://iticket.md/ru/event/halloween-run-editia-vi" target="_blank" rel="noopener">HalloWeRun · VI</a></div>
       <div class="km"><span class="cell">5 · 10</span></div>
       <div class="status"><span class="st open">Boarding</span></div>
     </div>
@@ -264,7 +272,7 @@
     <div class="row">
       <div class="date"><span class="cell">01 NOV</span></div>
       <div class="dest"><span class="cell"><span class="code">IAS</span>Iași · centru</span></div>
-      <div class="race"><span class="cell">Run Iași · 10K road</span></div>
+      <div class="race"><a class="cell" href="https://runiasi.ro/inscriere/" target="_blank" rel="noopener">Run Iași · 10K road</a></div>
       <div class="km"><span class="cell">10</span></div>
       <div class="status"><span class="st open">On time</span></div>
     </div>
@@ -272,7 +280,7 @@
     <div class="row">
       <div class="date"><span class="cell">14 NOV</span></div>
       <div class="dest"><span class="cell"><span class="code">NSP</span>Bălănești 428M</span></div>
-      <div class="race"><span class="cell">Semimaraton Bălănești</span></div>
+      <div class="race"><a class="cell" href="https://runmap.ro/events/semimaraton-dealul-balanesti-2026" target="_blank" rel="noopener">Semimaraton Bălănești</a></div>
       <div class="km"><span class="cell">5 · 11 · 21</span></div>
       <div class="status"><span class="st closed">Reg. TBA</span></div>
     </div>
@@ -280,7 +288,7 @@
     <div class="row">
       <div class="date"><span class="cell">13 DEC</span></div>
       <div class="dest"><span class="cell"><span class="code">KIV</span>Chișinău · ПМАН</span></div>
-      <div class="race"><span class="cell">Maratonul de Crăciun</span></div>
+      <div class="race"><a class="cell" href="https://sporter.md/en/events/run/17043/maratonul-de-craciun-by-moldcell-2026" target="_blank" rel="noopener">Maratonul de Crăciun</a></div>
       <div class="km"><span class="cell">3</span></div>
       <div class="status"><span class="st open">On time</span></div>
     </div>
