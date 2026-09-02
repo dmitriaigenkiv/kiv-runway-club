@@ -1,0 +1,313 @@
+<!doctype html>
+<title>KIV Runway Departures</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Saira+Stencil+One&family=Saira+Extra+Condensed:wght@500;700;800&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
+<style>
+  :root{
+    --tarmac:#0f1012;
+    --tarmac-2:#16181b;
+    --chalk:#e9e5da;
+    --chalk-dim:#a9a69c;
+    --amber:#ffb627;
+    --amber-dim:#8a6414;
+    --taxi:#5b5e64;
+    --red:#ff4d4d;
+    --green:#5ee39a;
+    --flap:#000;
+  }
+  html,body{margin:0;background:var(--tarmac);color:var(--chalk);}
+  body{font-family:"IBM Plex Mono","Courier New",monospace;-webkit-font-smoothing:antialiased;}
+  .stage{display:flex;justify-content:center;align-items:flex-start;padding:0;}
+  .poster{
+    position:relative;width:1080px;height:1350px;overflow:hidden;
+    background:
+      radial-gradient(120% 60% at 50% 0%, #1d1f23 0%, var(--tarmac) 55%),
+      var(--tarmac);
+    box-sizing:border-box;padding:56px 64px 48px;
+    display:flex;flex-direction:column;gap:0;
+  }
+  /* asphalt grain */
+  .poster::before{
+    content:"";position:absolute;inset:0;pointer-events:none;opacity:.35;mix-blend-mode:overlay;
+    background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='200' height='200'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0.6 0 0 0 0 0.6 0 0 0 0 0.6 0 0 0 .5 0'/></filter><rect width='200' height='200' filter='url(%23n)'/></svg>");
+  }
+  .runway{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;}
+
+  /* header */
+  .head{position:relative;display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:28px;}
+  .sign{
+    display:inline-flex;align-items:center;gap:10px;
+    background:#0a0a0b;border:5px solid var(--amber);border-radius:6px;padding:6px 16px 4px;
+    font-family:"Saira Stencil One","Saira Extra Condensed",Impact,sans-serif;
+    font-size:58px;line-height:1;color:var(--amber);letter-spacing:.04em;
+  }
+  .sign small{
+    font-family:"Saira Extra Condensed",Impact,sans-serif;font-weight:700;font-size:20px;letter-spacing:.14em;
+    color:var(--amber);border-left:3px solid var(--amber);padding-left:12px;line-height:1.05;text-align:left;
+  }
+  .club{
+    font-family:"Saira Extra Condensed",Impact,sans-serif;font-weight:800;font-size:44px;letter-spacing:.16em;
+    line-height:1;color:var(--chalk);text-transform:uppercase;white-space:nowrap;
+  }
+  .club span{color:var(--amber);}
+  .meta{
+    text-align:right;font-size:14px;letter-spacing:.12em;text-transform:uppercase;color:var(--chalk-dim);line-height:1.6;
+  }
+  .meta b{color:var(--chalk);font-weight:500;}
+
+  /* title */
+  .title{position:relative;margin-top:44px;display:flex;align-items:flex-end;justify-content:space-between;gap:24px;}
+  .title h1{
+    margin:0;font-family:"Saira Extra Condensed",Impact,sans-serif;font-weight:800;font-size:150px;line-height:.86;
+    letter-spacing:.02em;color:var(--chalk);text-transform:uppercase;
+  }
+  .title h1 em{font-style:normal;color:var(--amber);}
+  .title .sub{
+    text-align:right;font-family:"Saira Extra Condensed",Impact,sans-serif;font-weight:500;font-size:28px;line-height:1.1;
+    letter-spacing:.06em;text-transform:uppercase;color:var(--chalk-dim);padding-bottom:8px;
+  }
+  .title .sub b{display:block;color:var(--chalk);font-weight:700;font-size:32px;letter-spacing:.08em;white-space:nowrap;}
+
+  /* board */
+  .board{position:relative;margin-top:34px;border-top:2px solid var(--amber);}
+  .row{
+    display:grid;grid-template-columns:92px 214px 1fr 190px 130px;gap:12px;align-items:center;
+    height:60px;border-bottom:1px solid #2a2c31;font-size:16.5px;letter-spacing:.02em;
+    font-variant-numeric:tabular-nums;
+  }
+  .row.h{
+    height:36px;font-size:13px;letter-spacing:.18em;color:var(--amber-dim);text-transform:uppercase;font-weight:600;
+    border-bottom:1px solid var(--amber-dim);
+  }
+  .row.h > div{background:none;}
+  .row > div{min-width:0;}
+  /* split-flap cells */
+  .cell{
+    display:inline-block;padding:3px 8px 2px;background:var(--flap);border-radius:3px;line-height:1.25;
+    background-image:linear-gradient(to bottom, transparent 50%, rgba(255,255,255,.06) 50%, rgba(255,255,255,.06) calc(50% + 1px), transparent calc(50% + 1px));
+    text-transform:uppercase;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:100%;
+    color:var(--amber);font-weight:500;
+  }
+  .row .date .cell{font-weight:600;}
+  .row .dest .cell{color:var(--chalk);}
+  .row .dest .code{color:var(--amber);font-weight:600;margin-right:8px;}
+  .row .race .cell{color:var(--chalk);}
+  .row .km .cell{color:var(--chalk-dim);}
+  .st{font-weight:600;letter-spacing:.06em;font-size:14px;line-height:1.2;}
+  .st.open{color:var(--green);}
+  .st.last{color:var(--amber);animation:blink 1.4s steps(2,start) infinite;}
+  .st.closed{color:var(--taxi);}
+  .st.cancel{color:var(--red);}
+  .row.cancel .race .cell,.row.cancel .dest .cell,.row.cancel .km .cell,.row.cancel .date .cell{color:var(--taxi);text-decoration:line-through;text-decoration-color:var(--red);text-decoration-thickness:2px;}
+  .row.closed .race .cell,.row.closed .dest .cell,.row.closed .km .cell,.row.closed .date .cell{color:var(--chalk-dim);}
+  @keyframes blink{50%{opacity:.25}}
+  @media (prefers-reduced-motion:reduce){.st.last{animation:none}}
+
+  .next{position:relative;margin-top:22px;display:flex;align-items:baseline;gap:22px;
+    background:var(--amber);color:#0a0a0b;padding:14px 20px;border-radius:4px;}
+  .next .lbl{font-size:12px;letter-spacing:.2em;text-transform:uppercase;font-weight:600;}
+  .next .big{font-family:"Saira Extra Condensed",Impact,sans-serif;font-weight:800;font-size:34px;letter-spacing:.06em;text-transform:uppercase;line-height:1;}
+  .next .t{margin-left:auto;font-size:14px;letter-spacing:.08em;font-weight:500;}
+  /* footer */
+  .foot{position:relative;margin-top:auto;display:grid;grid-template-columns:1fr auto;align-items:end;gap:24px;}
+  .foot .note{font-size:13px;letter-spacing:.06em;line-height:1.7;color:var(--chalk-dim);max-width:600px;}
+  .foot .note b{color:var(--chalk);font-weight:500;}
+  .foot .rwy{
+    font-family:"Saira Stencil One","Saira Extra Condensed",Impact,sans-serif;font-size:132px;line-height:.8;color:var(--chalk);
+    letter-spacing:.02em;opacity:.92;text-align:right;
+  }
+  .foot .rwy small{
+    display:block;font-family:"IBM Plex Mono",monospace;font-size:13px;letter-spacing:.2em;color:var(--chalk-dim);margin-bottom:10px;text-transform:uppercase;
+  }
+
+  /* ---------- mobile / narrow ---------- */
+  @media (max-width:1079px){
+    .poster{width:100%;height:auto;min-height:100svh;padding:22px 18px 26px;}
+    .head{display:flex;flex-wrap:wrap;align-items:center;gap:12px 16px;}
+    .sign{font-size:38px;border-width:4px;padding:5px 12px 3px;gap:8px;}
+    .sign small{font-size:13px;letter-spacing:.12em;padding-left:9px;border-left-width:2px;}
+    .club{font-size:22px;letter-spacing:.12em;}
+    .meta{width:100%;text-align:left;font-size:11px;line-height:1.5;display:flex;gap:10px;}
+    .meta br{display:none;}
+    .title{margin-top:26px;flex-direction:column;align-items:flex-start;gap:8px;}
+    .title h1{font-size:clamp(72px,21vw,150px);}
+    .title .sub{text-align:left;font-size:18px;padding-bottom:0;}
+    .title .sub b{font-size:22px;white-space:normal;}
+    .board{margin-top:22px;}
+    .row.h{display:none;}
+    .row{
+      grid-template-columns:auto 1fr auto;
+      grid-template-areas:"date race status" "date dest km";
+      gap:6px 10px;height:auto;padding:12px 0;align-items:center;font-size:14px;
+    }
+    .row .date{grid-area:date;align-self:start;}
+    .row .race{grid-area:race;}
+    .row .status{grid-area:status;justify-self:end;text-align:right;}
+    .row .dest{grid-area:dest;}
+    .row .km{grid-area:km;justify-self:end;}
+    .cell{padding:3px 7px 2px;white-space:normal;overflow:visible;text-overflow:clip;line-height:1.3;}
+    .row .date .cell{white-space:nowrap;}
+    .st{font-size:11.5px;letter-spacing:.04em;white-space:nowrap;}
+    .next{flex-wrap:wrap;gap:6px 14px;padding:12px 14px;margin-top:18px;}
+    .next .lbl{font-size:10px;width:100%;}
+    .next .big{font-size:24px;}
+    .next .t{margin-left:0;font-size:12px;}
+    .foot{grid-template-columns:1fr;gap:18px;margin-top:28px;}
+    .foot .note{font-size:11.5px;line-height:1.65;max-width:none;}
+    .foot .rwy{font-size:96px;text-align:left;}
+    .foot .rwy small{font-size:11px;}
+  }
+  @media (max-width:380px){
+    .row{grid-template-columns:1fr auto;grid-template-areas:"date status" "race race" "dest km";}
+    .row .status{align-self:start;}
+  }
+</style>
+
+<div class="stage">
+<div class="poster">
+
+  <svg class="runway" viewBox="0 0 1080 1350" preserveAspectRatio="xMidYMax slice" aria-hidden="true">
+    <!-- runway edge lines converging upward -->
+    <g stroke="#2b2d32" stroke-width="2" fill="none">
+      <line x1="60" y1="1350" x2="480" y2="360"/>
+      <line x1="1020" y1="1350" x2="600" y2="360"/>
+    </g>
+    <!-- centerline dashes -->
+    <g fill="#33363c">
+      <rect x="532" y="1240" width="16" height="70"/>
+      <rect x="533" y="1120" width="14" height="60"/>
+      <rect x="534" y="1015" width="12" height="52"/>
+      <rect x="535" y="925" width="10" height="44"/>
+      <rect x="536" y="850" width="8" height="36"/>
+      <rect x="537" y="790" width="6" height="28"/>
+      <rect x="538" y="742" width="4" height="20"/>
+    </g>
+    <!-- threshold stripes at bottom -->
+    <g fill="#26282d">
+      <rect x="180" y="1290" width="26" height="60"/>
+      <rect x="240" y="1290" width="26" height="60"/>
+      <rect x="300" y="1290" width="26" height="60"/>
+      <rect x="360" y="1290" width="26" height="60"/>
+      <rect x="694" y="1290" width="26" height="60"/>
+      <rect x="754" y="1290" width="26" height="60"/>
+      <rect x="814" y="1290" width="26" height="60"/>
+      <rect x="874" y="1290" width="26" height="60"/>
+    </g>
+    <!-- approach lights -->
+    <g fill="#ffb627" opacity=".55">
+      <circle cx="540" cy="700" r="3"/><circle cx="540" cy="672" r="2.5"/><circle cx="540" cy="648" r="2"/><circle cx="540" cy="628" r="1.6"/>
+    </g>
+  </svg>
+
+  <header class="head">
+    <div class="sign">KIV<small>RUNWAY<br>CLUB</small></div>
+    <div class="club">Кишинёв <span>·</span> Chișinău</div>
+    <div class="meta">Табло обновлено<br><b>02 SEP 2026 · 09:00</b></div>
+  </header>
+
+  <section class="title">
+    <h1>Depar<em>tures</em></h1>
+    <div class="sub">Забеги Молдовы и Ясс<b>SEP 2026 — JAN 2027</b></div>
+  </section>
+
+  <section class="board">
+    <div class="row h"><div>Date</div><div>Dest</div><div>Race</div><div>KM</div><div>Status</div></div>
+
+    <div class="row">
+      <div class="date"><span class="cell">13 SEP</span></div>
+      <div class="dest"><span class="cell"><span class="code">KIV</span>Chișinău · ПМАН</span></div>
+      <div class="race"><span class="cell">Chisinau Marathon</span></div>
+      <div class="km"><span class="cell">5 · 10 · 21 · 42</span></div>
+      <div class="status"><span class="st open">Boarding</span></div>
+    </div>
+
+    <div class="row">
+      <div class="date"><span class="cell">19 SEP</span></div>
+      <div class="dest"><span class="cell"><span class="code">SGR</span>Rădoaia</span></div>
+      <div class="race"><span class="cell">NordRun · trail</span></div>
+      <div class="km"><span class="cell">5 · 10 · 21</span></div>
+      <div class="status"><span class="st last">Last call 10.09</span></div>
+    </div>
+
+    <div class="row closed">
+      <div class="date"><span class="cell">19 SEP</span></div>
+      <div class="dest"><span class="cell"><span class="code">IAS</span>Ciurea · Iași</span></div>
+      <div class="race"><span class="cell">Trail la Cabană</span></div>
+      <div class="km"><span class="cell">3 · 11 · 21</span></div>
+      <div class="status"><span class="st closed">Reg. closed</span></div>
+    </div>
+
+    <div class="row">
+      <div class="date"><span class="cell">26 SEP</span></div>
+      <div class="dest"><span class="cell"><span class="code">CRV</span>Cricova</span></div>
+      <div class="race"><span class="cell">Feteasca Run</span></div>
+      <div class="km"><span class="cell">10</span></div>
+      <div class="status"><span class="st last">150 seats</span></div>
+    </div>
+
+    <div class="row">
+      <div class="date"><span class="cell">03 OCT</span></div>
+      <div class="dest"><span class="cell"><span class="code">IAS</span>Mârzești · Iași</span></div>
+      <div class="race"><span class="cell">Mârzești Trail Run</span></div>
+      <div class="km"><span class="cell">2 · 4 · 10.5 · 21</span></div>
+      <div class="status"><span class="st open">On time</span></div>
+    </div>
+
+    <div class="row cancel">
+      <div class="date"><span class="cell">04 OCT</span></div>
+      <div class="dest"><span class="cell"><span class="code">ORH</span>Chateau Vartely</span></div>
+      <div class="race"><span class="cell">Acasă la Taraboste</span></div>
+      <div class="km"><span class="cell">14</span></div>
+      <div class="status"><span class="st cancel">Cancelled</span></div>
+    </div>
+
+    <div class="row">
+      <div class="date"><span class="cell">10 OCT</span></div>
+      <div class="dest"><span class="cell"><span class="code">PUH</span>Puhoi · Asconi</span></div>
+      <div class="race"><span class="cell">TulbuRun la Asconi</span></div>
+      <div class="km"><span class="cell">6.8 · 11.2</span></div>
+      <div class="status"><span class="st open">On time</span></div>
+    </div>
+
+    <div class="row">
+      <div class="date"><span class="cell">01 NOV</span></div>
+      <div class="dest"><span class="cell"><span class="code">IAS</span>Iași · centru</span></div>
+      <div class="race"><span class="cell">Run Iași · 10K road</span></div>
+      <div class="km"><span class="cell">10</span></div>
+      <div class="status"><span class="st open">On time</span></div>
+    </div>
+
+    <div class="row">
+      <div class="date"><span class="cell">14 NOV</span></div>
+      <div class="dest"><span class="cell"><span class="code">NSP</span>Bălănești 428M</span></div>
+      <div class="race"><span class="cell">Semimaraton Bălănești</span></div>
+      <div class="km"><span class="cell">5 · 11 · 21</span></div>
+      <div class="status"><span class="st open">On time</span></div>
+    </div>
+
+    <div class="row">
+      <div class="date"><span class="cell">13 DEC</span></div>
+      <div class="dest"><span class="cell"><span class="code">KIV</span>Chișinău · ПМАН</span></div>
+      <div class="race"><span class="cell">Maratonul de Crăciun</span></div>
+      <div class="km"><span class="cell">3</span></div>
+      <div class="status"><span class="st open">On time</span></div>
+    </div>
+  </section>
+
+  <div class="next">
+    <span class="lbl">Next departure</span>
+    <span class="big">13 SEP · Chisinau Marathon</span>
+    <span class="t">T−11 days · start 09:00 · ПМАН</span>
+  </div>
+
+  <footer class="foot">
+    <div class="note">
+      <b>Boarding</b> — регистрация открыта, вылет через 11 дней. <b>Last call</b> — мест мало или окно закрывается.
+      Статусы по данным организаторов на 02.09.2026: sporter.md, runmoldova.com, nordrun.md, competi.ro, runiasi.ro.
+      Проверяй перед покупкой. Даты Mârzești расходятся в календарях (26.09 / 03.10).
+    </div>
+    <div class="rwy"><small>RWY 08/26 · 3 590 m</small>08</div>
+  </footer>
+
+</div>
+</div>
