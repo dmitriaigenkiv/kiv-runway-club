@@ -1,4 +1,5 @@
 <!doctype html>
+<meta charset="utf-8">
 <title>KIV Runway Departures</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 64 64%27%3E%3Crect width=%2764%27 height=%2764%27 fill=%27%230a0a0b%27/%3E%3Ctext x=%2732%27 y=%2743%27 font-family=%27Arial,Helvetica,sans-serif%27 font-weight=%27700%27 font-size=%2726%27 fill=%27%23ffb627%27 text-anchor=%27middle%27%3EKIV%3C/text%3E%3C/svg%3E">
@@ -57,7 +58,7 @@
   .meta b{color:var(--chalk);font-weight:500;}
 
   /* title */
-  .title{position:relative;margin-top:44px;display:flex;align-items:flex-end;justify-content:space-between;gap:24px;}
+  .title{position:relative;margin-top:30px;display:flex;align-items:flex-end;justify-content:space-between;gap:24px;}
   .title h1{
     margin:0;font-family:"Saira Extra Condensed",Impact,sans-serif;font-weight:800;font-size:150px;line-height:.86;
     letter-spacing:.02em;color:var(--chalk);text-transform:uppercase;
@@ -70,10 +71,10 @@
   .title .sub b{display:block;color:var(--chalk);font-weight:700;font-size:32px;letter-spacing:.08em;white-space:nowrap;}
 
   /* board */
-  .board{position:relative;margin-top:34px;border-top:2px solid var(--amber);}
+  .board{position:relative;margin-top:24px;border-top:2px solid var(--amber);}
   .row{
     display:grid;grid-template-columns:92px 214px 1fr 190px 130px;gap:12px;align-items:center;
-    height:60px;border-bottom:1px solid #2a2c31;font-size:16.5px;letter-spacing:.02em;
+    height:64px;border-bottom:1px solid #2a2c31;font-size:16.5px;letter-spacing:.02em;
     font-variant-numeric:tabular-nums;
   }
   .row.h{
@@ -104,7 +105,7 @@
   @keyframes blink{50%{opacity:.25}}
   @media (prefers-reduced-motion:reduce){.st.last{animation:none}}
 
-  .next{position:relative;margin-top:22px;display:flex;align-items:baseline;gap:22px;
+  .next{position:relative;margin-top:16px;display:flex;align-items:baseline;gap:22px;
     background:var(--amber);color:#0a0a0b;padding:14px 20px;border-radius:4px;}
   .next .lbl{font-size:12px;letter-spacing:.2em;text-transform:uppercase;font-weight:600;}
   .next .big{font-family:"Saira Extra Condensed",Impact,sans-serif;font-weight:800;font-size:34px;letter-spacing:.06em;text-transform:uppercase;line-height:1;}
@@ -210,18 +211,18 @@
   <header class="head">
     <div class="sign">KIV<small>RUNWAY<br>CLUB</small></div>
     <div class="club">Кишинёв <span>·</span> Chișinău</div>
-    <div class="meta"><a class="back" href="index.html">← Index</a>Табло обновлено<br><b>02 SEP 2026 · 09:00</b></div>
+    <div class="meta"><a class="back" href="index.html">← Index</a>Табло обновлено<br><b>04 SEP 2026 · 12:00</b></div>
   </header>
 
   <section class="title">
     <h1>Depar<em>tures</em></h1>
-    <div class="sub">Забеги Молдовы и Ясс<b>SEP 2026 — JAN 2027</b></div>
+    <div class="sub">Молдова · Яссы · Бухарест<b>SEP 2026 — JAN 2027</b></div>
   </section>
 
   <section class="board">
     <div class="row h"><div>Date</div><div>Dest</div><div>Race</div><div>KM</div><div>Status</div></div>
 
-    <div class="row">
+    <div class="row" data-date="2026-09-13">
       <div class="date"><span class="cell">13 SEP</span></div>
       <div class="dest"><span class="cell"><span class="code">KIV</span>Chișinău · ПМАН</span></div>
       <div class="race"><a class="cell" href="https://sporter.md/en/events/run/16538/chisinau-marathon-2026" target="_blank" rel="noopener">Chisinau Marathon</a></div>
@@ -229,7 +230,7 @@
       <div class="status"><span class="st open">Boarding</span></div>
     </div>
 
-    <div class="row">
+    <div class="row" data-date="2026-09-19">
       <div class="date"><span class="cell">19 SEP</span></div>
       <div class="dest"><span class="cell"><span class="code">SGR</span>Rădoaia</span></div>
       <div class="race"><a class="cell" href="https://nordrun.md/curse/" target="_blank" rel="noopener">NordRun · trail</a></div>
@@ -237,7 +238,7 @@
       <div class="status"><span class="st last">Last call 10.09</span></div>
     </div>
 
-        <div class="row">
+        <div class="row" data-date="2026-09-26">
       <div class="date"><span class="cell">26 SEP</span></div>
       <div class="dest"><span class="cell"><span class="code">CRV</span>Cricova</span></div>
       <div class="race"><a class="cell" href="https://iticket.md/event/feteasca-run-2026" target="_blank" rel="noopener">Feteasca Run</a></div>
@@ -245,7 +246,7 @@
       <div class="status"><span class="st last">150 seats</span></div>
     </div>
 
-    <div class="row">
+    <div class="row" data-date="2026-10-03">
       <div class="date"><span class="cell">03 OCT</span></div>
       <div class="dest"><span class="cell"><span class="code">IAS</span>Mârzești · Iași</span></div>
       <div class="race"><a class="cell" href="https://marzestirun.ro/inscrie-te/" target="_blank" rel="noopener">Mârzești Trail Run</a></div>
@@ -253,7 +254,7 @@
       <div class="status"><span class="st closed">Reg. TBA</span></div>
     </div>
 
-        <div class="row">
+        <div class="row" data-date="2026-10-10">
       <div class="date"><span class="cell">10 OCT</span></div>
       <div class="dest"><span class="cell"><span class="code">PUH</span>Puhoi · Asconi</span></div>
       <div class="race"><a class="cell" href="https://www.runmoldova.com/tulburun-la-asconi-2026/" target="_blank" rel="noopener">TulbuRun la Asconi</a></div>
@@ -261,7 +262,15 @@
       <div class="status"><span class="st open">On time</span></div>
     </div>
 
-        <div class="row">
+    <div class="row" data-date="2026-10-11">
+      <div class="date"><span class="cell">11 OCT</span></div>
+      <div class="dest"><span class="cell"><span class="code">BUH</span>București</span></div>
+      <div class="race"><a class="cell" href="https://bucharest-marathon.com/en/" target="_blank" rel="noopener">Bucharest Marathon</a></div>
+      <div class="km"><span class="cell">2.5 · 10 · 21 · 42</span></div>
+      <div class="status"><span class="st open">Boarding</span></div>
+    </div>
+
+        <div class="row" data-date="2026-10-31">
       <div class="date"><span class="cell">31 OCT</span></div>
       <div class="dest"><span class="cell"><span class="code">CRV</span>Cricova</span></div>
       <div class="race"><a class="cell" href="https://iticket.md/ru/event/halloween-run-editia-vi" target="_blank" rel="noopener">HalloWeRun · VI</a></div>
@@ -269,7 +278,7 @@
       <div class="status"><span class="st open">Boarding</span></div>
     </div>
 
-    <div class="row">
+    <div class="row" data-date="2026-11-01">
       <div class="date"><span class="cell">01 NOV</span></div>
       <div class="dest"><span class="cell"><span class="code">IAS</span>Iași · centru</span></div>
       <div class="race"><a class="cell" href="https://runiasi.ro/inscriere/" target="_blank" rel="noopener">Run Iași · 10K road</a></div>
@@ -277,7 +286,7 @@
       <div class="status"><span class="st open">On time</span></div>
     </div>
 
-    <div class="row">
+    <div class="row" data-date="2026-11-14">
       <div class="date"><span class="cell">14 NOV</span></div>
       <div class="dest"><span class="cell"><span class="code">NSP</span>Bălănești 428M</span></div>
       <div class="race"><a class="cell" href="https://runmap.ro/events/semimaraton-dealul-balanesti-2026" target="_blank" rel="noopener">Semimaraton Bălănești</a></div>
@@ -285,7 +294,7 @@
       <div class="status"><span class="st closed">Reg. TBA</span></div>
     </div>
 
-    <div class="row">
+    <div class="row" data-date="2026-12-13">
       <div class="date"><span class="cell">13 DEC</span></div>
       <div class="dest"><span class="cell"><span class="code">KIV</span>Chișinău · ПМАН</span></div>
       <div class="race"><a class="cell" href="https://sporter.md/en/events/run/17043/maratonul-de-craciun-by-moldcell-2026" target="_blank" rel="noopener">Maratonul de Crăciun</a></div>
@@ -296,18 +305,69 @@
 
   <div class="next">
     <span class="lbl">Next departure</span>
-    <span class="big">13 SEP · Chisinau Marathon</span>
-    <span class="t">T−11 days · start 09:00 · ПМАН</span>
+    <span class="big" data-next="big">13 SEP · Chisinau Marathon</span>
+    <span class="t"><span data-next="t">T−9 days</span><span data-next="where"> · Chișinău · ПМАН</span></span>
   </div>
 
   <footer class="foot">
     <div class="note">
-      <b>Boarding</b> — регистрация открыта, вылет через 11 дней. <b>Last call</b> — мест мало или окно закрывается. <b>TBA</b> — анонс есть, продажи слотов ещё нет.
-      Статусы по данным организаторов на 02.09.2026: sporter.md, runmoldova.com, nordrun.md, competi.ro, runiasi.ro.
+      <b>Boarding</b> — регистрация открыта, слот можно купить. <b>Last call</b> — мест мало или окно закрывается. <b>TBA</b> — анонс есть, продажи слотов ещё нет.
+      Статусы по данным организаторов на 04.09.2026: sporter.md, runmoldova.com, nordrun.md, bucharest-marathon.com, runiasi.ro, competi.ro.
       Проверяй перед покупкой. Даты Mârzești расходятся в календарях (26.09 / 03.10).
+      Полный индекс с забегами 2027 и попутчиками на выездные старты — на <a class="back" style="margin:0" href="index.html">index</a>.
     </div>
     <div class="rwy"><small>RWY 08/26 · 3 590 m</small>08</div>
   </footer>
 
 </div>
 </div>
+
+<script>
+(function(){
+  "use strict";
+  var MON = ["JAN","FEB","MAR","APR","MAY","JUN","JUL","AUG","SEP","OCT","NOV","DEC"];
+  var today = new Date(); today.setHours(0,0,0,0);
+  var rows = [].slice.call(document.querySelectorAll(".row[data-date]"));
+  var live = [];
+
+  rows.forEach(function(row){
+    var p = row.getAttribute("data-date").split("-");
+    var d = new Date(+p[0], +p[1]-1, +p[2]); d.setHours(0,0,0,0);
+    if(d < today){
+      row.classList.add("closed");
+      var st = row.querySelector(".st");
+      if(st){ st.className = "st closed"; st.textContent = "Departed"; }
+    }else{
+      live.push({ row: row, d: d });
+    }
+  });
+
+  live.sort(function(a,b){ return a.d - b.d; });
+  if(!live.length) return;
+
+  var n = live[0];
+  var days = Math.round((n.d - today) / 86400000);
+  var name = n.row.querySelector(".race .cell");
+  var big = document.querySelector('[data-next="big"]');
+  var t = document.querySelector('[data-next="t"]');
+
+  if(big && name){
+    big.textContent = ("0" + n.d.getDate()).slice(-2) + " " + MON[n.d.getMonth()] + " · " + name.textContent.trim();
+  }
+  if(t){
+    t.textContent = days === 0 ? "TODAY" : "T−" + days + (days === 1 ? " day" : " days");
+  }
+  var where = document.querySelector('[data-next="where"]');
+  var dest = n.row.querySelector(".dest .cell");
+  if(where && dest){
+    var code = dest.querySelector(".code");
+    var parts = [];
+    if(code) parts.push(code.textContent.trim());
+    var rest = dest.cloneNode(true);
+    var c = rest.querySelector(".code");
+    if(c) c.remove();
+    parts.push(rest.textContent.replace(/\s+/g, " ").trim());
+    where.textContent = " · " + parts.filter(Boolean).join(" ");
+  }
+})();
+</script>
